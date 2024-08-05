@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   useWindowDimensions,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 
 export function RegistrationScreen() {
@@ -17,51 +19,66 @@ export function RegistrationScreen() {
 
   const { width, height } = useWindowDimensions();
 
+  const keyboardIsHidden = () => {
+    Keyboard.dismiss(); //закриття клавітури
+  };
+
   return (
-    <View style={styles.container}>
-      {/* <ImageBackground
-        source={require("../../assets/images/backgroundImg.png")}
-        style={{ position: "absolute", width: width, height: height }}
-      /> */}
-      <Text style={styles.title}>Реєстрація</Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Логін"
-          value={text}
-          onChangeText={(text) => setText(text)}
-        />
-        <TextInput
-          placeholder="Адреса електронної пошти"
-          textContentType="emailAddress"
-          value={email}
-          onChangeText={(value) => setEmail(value)}
-        />
-        <View style={styles.passwordContainer}>
-          <TextInput
-            placeholder="Пароль"
-            textContentType="password"
-            secureTextEntry={passwordIsHidden}
-            value={password}
-            onChangeText={(value) => setPassword(value)}
-          />
-          <TouchableOpacity
-            style={styles.passwordHideBtn}
-            onPress={() => setPasswordIsHidden(!passwordIsHidden)}
-          >
-            <Text style={styles.passwordHideText}>
-              {passwordIsHidden ? "Показати" : "Приховати"}
-            </Text>
+    <TouchableWithoutFeedback onPress={keyboardIsHidden}>
+      <View style={styles.container}>
+        <ImageBackground
+          source={require("../assets/images/backgroundImg.png")}
+          style={{
+            resizeMode: "cover",
+            width: width,
+            height: height,
+            justifyContent: "flex-end",
+            flex: 1,
+          }}
+        >
+          <Text style={styles.title}>Реєстрація</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Логін"
+              value={text}
+              onChangeText={(text) => setText(text)}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Адреса електронної пошти"
+              textContentType="emailAddress"
+              value={email}
+              onChangeText={(value) => setEmail(value)}
+            />
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Пароль"
+                textContentType="password"
+                secureTextEntry={passwordIsHidden}
+                value={password}
+                onChangeText={(value) => setPassword(value)}
+              />
+              <TouchableOpacity
+                style={styles.passwordHideBtn}
+                onPress={() => setPasswordIsHidden(!passwordIsHidden)}
+              >
+                <Text style={styles.passwordHideText}>
+                  {passwordIsHidden ? "Показати" : "Приховати"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.registerText}>Зареєструватися</Text>
           </TouchableOpacity>
-        </View>
+          <TouchableOpacity style={styles.toLogin}>
+            <Text>Вже є акаунт? Увійти</Text>
+          </TouchableOpacity>
+        </ImageBackground>
       </View>
-      <TouchableOpacity style={styles.button}>
-        <Text>Зареєструватися</Text>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Text>Вже є акаунт? Увійти</Text>
-      </TouchableOpacity>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -76,22 +93,26 @@ const styles = StyleSheet.create({
     lineHeight: 35,
     color: "black",
     textAlign: "center",
+    marginBottom: 32,
   },
   button: {
     fontSize: 16,
     fontWeight: "400",
     backgroundColor: "#FF6C00",
-    color: "white",
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 100,
     marginBottom: 16,
   },
+  registerText: {
+    color: "white",
+    textAlign: "center",
+  },
   inputContainer: {
     gap: 16,
+    marginBottom: 43,
   },
   input: {
-    width: "100%",
     height: 40,
     borderColor: "#ccc",
     borderWidth: 1,
@@ -109,5 +130,8 @@ const styles = StyleSheet.create({
   passwordHideText: {
     fontSize: 16,
     color: "#1B4371",
+  },
+  toLogin: {
+    textAlign: "center",
   },
 });
